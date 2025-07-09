@@ -8,7 +8,15 @@
         <option value="$PROJECT_DIR$/brief-service/pom.xml" />
         <option value="$PROJECT_DIR$/validation-service/pom.xml" />
         <option value="$PROJECT_DIR$/apprenant-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ENAA_SKills/pom.xml" />
+        <option value="$PROJECT_DIR$/competence-service/pom.xml" />
+        <option value="$PROJECT_DIR$/competance-service/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/competence-service/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="23" project-jdk-type="JavaSDK">
