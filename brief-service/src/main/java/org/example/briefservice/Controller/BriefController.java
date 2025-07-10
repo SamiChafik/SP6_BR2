@@ -1,7 +1,6 @@
 package org.example.briefservice.Controller;
 
 
-import lombok.Getter;
 import org.example.briefservice.Dto.BriefDto;
 import org.example.briefservice.Service.BriefService;
 import org.springframework.beans.factory.annotation.Autowired;

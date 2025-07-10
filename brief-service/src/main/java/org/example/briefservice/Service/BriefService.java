@@ -39,7 +39,7 @@ public class BriefService {
         brief.setDescription(dto.getDescription());
         brief.setDateCreation(dto.getDateCreation());
 
-        return mapper.toDto(brief);
+        return mapper.toDto(repo.save(brief));
     }
 
     public void deleteBrief(Long id){
