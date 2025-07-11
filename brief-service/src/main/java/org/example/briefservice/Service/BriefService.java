@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BriefService {
+public class BriefService{
 
     private final BriefRepo repo;
     private final BriefMapper mapper;
