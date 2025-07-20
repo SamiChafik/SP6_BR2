@@ -30,8 +30,13 @@ public class CompetenceController {
         return service.getAll();
     }
 
+    @GetMapping("/getById/{id}")
+    public CompetenceDTO getCompetenceById(@PathVariable Long id){
+        return service.getCompetenceById(id);
+    }
+
     @GetMapping("/getSubs/{id}")
-    public List<SubCompetenceDTO> getCompetenceById(@PathVariable Long id){
+    public List<SubCompetenceDTO> getSubCompetenceById(@PathVariable Long id){
         return service.getByCompetenceById(id);
     }
 

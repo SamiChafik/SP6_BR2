@@ -51,6 +51,15 @@ public class CompetenceService {
         return mapper.toDTOs(competenceList);
     }
 
+    public CompetenceDTO getCompetenceById(Long id) {
+        Competence competence = repository.getCompetenceById(id);
+
+        if (competence == null) {
+            throw new RuntimeException("Competence not found with id: " + id);
+        }
+        return mapper.toDTO(competence);
+    }
+
     public List<Competence> getAll2(){
         List<Competence> competenceList = repository.findAll();
 
