@@ -8,12 +8,12 @@
   <url>http://maven.apache.org</url>
 
 
-    <modules>
-      <module>apprenant-service</module>
-      <module>brief-service</module>
-      <module>competance-service</module>
-      <module>validation-service</module>
-    </modules>
+<!--    <modules>-->
+<!--      <module>apprenant-service</module>-->
+<!--      <module>brief-service</module>-->
+<!--      <module>competance-service</module>-->
+<!--      <module>validation-service</module>-->
+<!--    </modules>-->
 
 </project>
 
