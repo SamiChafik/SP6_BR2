@@ -11,6 +11,8 @@
         <option value="$PROJECT_DIR$/ENAA_SKills/pom.xml" />
         <option value="$PROJECT_DIR$/competence-service/pom.xml" />
         <option value="$PROJECT_DIR$/competance-service/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-service/pom.xml" />
+        <option value="$PROJECT_DIR$/registry-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
