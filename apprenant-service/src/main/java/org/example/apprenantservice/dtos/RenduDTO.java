@@ -3,6 +3,8 @@ package org.example.apprenantservice.dtos;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class RenduDTO {
@@ -10,7 +12,7 @@ public class RenduDTO {
     private String link;
     private String comment;
     private Long briefId;
-    private Long competenceId;
+    private List<CompetenceDTO> competences;
 
     public Long getId() {
         return id;
@@ -44,11 +46,11 @@ public class RenduDTO {
         this.briefId = briefId;
     }
 
-    public Long getCompetenceId() {
-        return competenceId;
+    public List<CompetenceDTO> getCompetences() {
+        return competences;
     }
 
-    public void setCompetenceId(Long competenceId) {
-        this.competenceId = competenceId;
+    public void setCompetences(List<CompetenceDTO> competences) {
+        this.competences = competences;
     }
 }

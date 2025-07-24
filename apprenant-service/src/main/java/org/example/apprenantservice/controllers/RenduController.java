@@ -43,13 +43,21 @@ public class RenduController {
         return new ResponseEntity<>(createdRendu, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{competenceId}/assign-to-rendu/{renduId}")
-    public ResponseEntity<RenduDTO> assignCompetenceToBrief(
-            @PathVariable Long competenceId,
-            @PathVariable Long renduId) {
-        RenduDTO updatedRendu = renduServices.assignCompetenceToBrief(competenceId, renduId);
+    @PostMapping("/{renduId}/add-competence/{competenceId}")
+    public ResponseEntity<RenduDTO> addCompetenceToRendu(
+            @PathVariable Long renduId,
+            @PathVariable Long competenceId) {
+        RenduDTO updatedRendu = renduServices.assignCompetenceToRendu(renduId, competenceId);
         return new ResponseEntity<>(updatedRendu, HttpStatus.OK);
     }
+
+//    @PostMapping("/{competenceId}/assign-to-rendu/{renduId}")
+//    public ResponseEntity<RenduDTO> assignCompetenceToBrief(
+//            @PathVariable Long competenceId,
+//            @PathVariable Long renduId) {
+//        RenduDTO updatedRendu = renduServices.assignCompetenceToBrief(competenceId, renduId);
+//        return new ResponseEntity<>(updatedRendu, HttpStatus.OK);
+//    }
 
 //    @PostMapping("/{renduId}/assign-to-brief/{briefId}")
 //    public ResponseEntity<RenduDTO> assignRenduToBrief(
