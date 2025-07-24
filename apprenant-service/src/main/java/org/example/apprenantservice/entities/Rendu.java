@@ -1,11 +1,13 @@
 package org.example.apprenantservice.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.example.apprenantservice.dtos.CompetenceDTO;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -17,10 +19,14 @@ public class Rendu {
     private Long id;
     private String link;
     private String comment;
+    private LocalDate creationDate;
 
     private Long briefId;
 
-    private Long competenceId;
+    @ElementCollection
+    @CollectionTable(name = "rendu_competences", joinColumns = @JoinColumn(name = "rendu_id"))
+    @Column(name = "competence_id")
+    private List<Long> competenceIds = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -54,11 +60,11 @@ public class Rendu {
         this.briefId = briefId;
     }
 
-    public Long getCompetenceId() {
-        return competenceId;
+    public List<Long> getCompetenceIds() {
+        return competenceIds;
     }
 
-    public void setCompetenceId(Long competenceId) {
-        this.competenceId = competenceId;
+    public void setCompetenceIds(List<Long> competenceIds) {
+        this.competenceIds = competenceIds;
     }
 }
