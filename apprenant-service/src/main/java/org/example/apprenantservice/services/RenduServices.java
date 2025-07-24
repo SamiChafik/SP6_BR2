@@ -35,10 +35,39 @@ public class RenduServices {
                 .collect(Collectors.toList());
     }
 
+//    public List<RenduDTO> getAllRendus() {
+//        List<Rendu> rendus = renduRepository.findAll();
+//
+//        return rendus.stream()
+//                .map(rendu -> {
+//                    RenduDTO renduDTO = renduMapper.toDTO(rendu);
+//
+//                    // Map competence IDs to SimpleCompetenceDTOs
+//                    List<CompetenceDTO> simpleCompetences = rendu.getCompetenceIds().stream()
+//                            .map(competenceId -> {
+//                                CompetenceDTO fullCompetence = competenceServiceClient.getCompetenceById(competenceId);
+//                                return new CompetenceDTO(fullCompetence.getId(), fullCompetence.getName());
+//                            })
+//                            .collect(Collectors.toList());
+//
+//                    renduDTO.setCompetences(simpleCompetences);
+//                    return renduDTO;
+//                })
+//                .collect(Collectors.toList());
+//    }
+
     public RenduDTO getRenduById(Long id) {
         Rendu rendu = renduRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Rendu not found with id: " + id));
-        return renduMapper.toDTO(rendu);
+
+        RenduDTO renduDTO = renduMapper.toDTO(rendu);
+
+        List<CompetenceDTO> competenceDTOs = rendu.getCompetenceIds().stream()
+                .map(competenceServiceClient::getCompetenceById)
+                .collect(Collectors.toList());
+
+        renduDTO.setCompetences(competenceDTOs);
+        return renduDTO;
     }
 
     public RenduDTO createRendu(RenduDTO renduDTO) {
@@ -53,7 +82,7 @@ public class RenduServices {
         return renduMapper.toDTO(savedRendu);
     }
 
-    public RenduDTO assignCompetenceToBrief(Long renduId, Long competenceId) {
+    public RenduDTO assignCompetenceToRendu(Long renduId, Long competenceId) {
         CompetenceDTO competence = competenceServiceClient.getCompetenceById(competenceId);
         if (competence == null) {
             throw new RuntimeException("Brief not found with id: " + competenceId);
@@ -62,10 +91,18 @@ public class RenduServices {
         Rendu rendu = renduRepository.findById(renduId)
                 .orElseThrow(() -> new RuntimeException("Rendu not found with id: " + renduId));
 
-        rendu.setCompetenceId(competenceId);
-        Rendu updatedRendu = renduRepository.save(rendu);
+        if (!rendu.getCompetenceIds().contains(competenceId)) {
+            rendu.getCompetenceIds().add(competenceId);
+            renduRepository.save(rendu);
+        }
 
-        return renduMapper.toDTO(updatedRendu);
+        List<CompetenceDTO> competenceDTOs = rendu.getCompetenceIds().stream()
+                .map(competenceServiceClient::getCompetenceById)
+                .collect(Collectors.toList());
+
+        RenduDTO renduDTO = renduMapper.toDTO(rendu);
+        renduDTO.setCompetences(competenceDTOs);
+        return renduDTO;
     }
 
 //    public RenduDTO assignRenduToBrief(Long renduId, Long briefId) {
