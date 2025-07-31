@@ -1,0 +1,122 @@
+services:
+  registry-server:
+    build:
+      context: ./registry-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://registry-server:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  apprenant-service:
+    build:
+      context: ./apprenant-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_URI=http://registry-server:8080/eureka
+      - DB_URL=jdbc:mysql://mysql:3306/apprenantservicedb
+    depends_on:
+      registry-server:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring-net
+
+  brief-service:
+    build:
+      context: ./brief-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - EUREKA_URI=http://registry-server:8080/eureka
+      - DB_URL=jdbc:mysql://mysql:3306/brief
+    depends_on:
+      registry-server:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring-net
+
+  competance-service:
+    build:
+      context: ./competance-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - EUREKA_URI=http://registry-server:8080/eureka
+      - DB_URL=jdbc:mysql://mysql:3306/competenceservicedb
+    depends_on:
+      registry-server:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring-net
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    environment:
+      - EUREKA_URI=http://registry-server:8080/eureka
+    depends_on:
+      registry-server:
+        condition: service_healthy
+    networks:
+      - spring-net
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_URI=http://registry-server:8080/eureka
+      - DB_URL=jdbc:mysql://mysql:3306/auth_db
+    depends_on:
+      registry-server:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - spring-net
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456789
+      MYSQL_DATABASE: enaaskills_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+networks:
+  spring-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+
